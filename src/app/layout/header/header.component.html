@@ -1,0 +1,12 @@
+<header class="wrapper row space-between">
+  <h1 routerLink="/">B L O G S I T E</h1>
+  <input type="text"
+    class="search-bar"
+    placeholder="search..."  
+  >
+  <button (click)="getBlogs()">get Blogs</button>
+  <app-category-menu />
+  <!-- Create new post button -->
+  <a routerLink="/new-post" *ngIf="this.authService.isLoggedIn()">New Post</a>
+  <app-auth />
+</header>

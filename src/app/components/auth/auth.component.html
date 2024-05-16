@@ -1,0 +1,92 @@
+<button
+  type="button"
+  (click)="displayLogin = true"
+  *ngIf="!this.authService.isLoggedIn()"
+>
+  Login
+</button>
+
+<button
+  type="button"
+  (click)="this.authService.logout()"
+  *ngIf="this.authService.isLoggedIn()"
+>
+  Log out
+</button>
+
+<p-dialog [modal]="true" [(visible)]="displayLogin">
+  <div class="column gap-1">
+    <!-- TITLE -->
+    <h1>Log in</h1>
+    <div>no account yet : <a (click)="switchToRegister()">register</a></div>
+    <div class="row gap-05">
+      <input type="text" name="email" placeholder="Email" [(ngModel)]="email" />
+    </div>
+    <div class="row gap-05">
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+      />
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="onLogin()">
+      Log in
+    </button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog [modal]="true" [(visible)]="displayRegister">
+  <div class="column gap-1">
+    <!-- TITLE -->
+    <h1>Register</h1>
+    <div>Already an account : <a (click)="switchToLogin()">Login</a></div>
+    <div class="row gap-05">
+      <input
+        type="text"
+        name="name"
+        placeholder="username"
+        [(ngModel)]="name"
+      />
+    </div>
+    <div class="row gap-05">
+      <input
+        type="email"
+        name="email"
+        placeholder="email@exemple.com"
+        [(ngModel)]="email"
+      />
+    </div>
+    <div class="row gap-05">
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        [(ngModel)]="password"
+      />
+    </div>
+    <div class="row gap-05">
+      <input
+        type="password"
+        name="password_confirmation"
+        placeholder="confirm password"
+        [(ngModel)]="password_confirmation"
+      />
+    </div>
+    <div class="row gap-05">
+      <input
+        type="text"
+        name="userType"
+        placeholder="user or admin..."
+        [(ngModel)]="userType"
+      />
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="onRegister()">
+      Register
+    </button>
+  </p-footer>
+</p-dialog>

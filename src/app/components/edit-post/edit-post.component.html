@@ -1,0 +1,32 @@
+<h1>{{header}}</h1>
+
+<div class="column gap-1">
+
+    <!-- TITLE -->
+    <div class="row gap-05">
+        <span class="price-label"> Title: </span>
+        <input type="text" [(ngModel)] = "post.title"/>
+    </div>
+
+    <!-- URL TO IMG -->
+    <div class="row gap-05">
+        <span class="price-label"> Image: </span>
+        <input type="file" [(ngModel)] = "post.image[0]"/>
+    </div>
+
+    <div class="row gap-05">
+        <span class="price-label"> Category: </span>
+        <input type="text" [(ngModel)] = "post.category_id"/>
+        
+    </div>
+
+    <!-- CONTENT  -->
+    <div class="row gap-05">
+        <span class="price-label"> Content: </span>
+        <input type="text" [(ngModel)] = "post.content"/>
+    </div>
+
+</div>
+
+<button type="button" pButton icon="pi pi-check" (click)="onConfirm()">Confirm</button>
+<button type="button" pButton icon="pi pi-times" (click)="onCancel()">Cancel</button>

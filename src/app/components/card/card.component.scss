@@ -1,0 +1,37 @@
+.card-wrapper {
+    width: 300px;
+    // height: 500px;
+    background-color: var(--dark);
+    border-radius: 5px;
+    overflow: hidden;
+  
+    img {
+      aspect-ratio: 1.25;
+      object-fit: cover;
+      width: 100%;
+      background-color: gray;
+    }
+
+    .text-wrapper{
+        padding:1.25rem;
+
+    }
+  
+    .title {
+      font-weight: 400;
+      font-size: 1.25rem;
+      height:3rem;
+    }
+  
+    .views, .date {
+      font-weight: 300;
+      font-size: 1rem;
+    }
+    p, .read-more{
+        font-size:0.75rem;
+    }
+    .read-more{
+        text-align: center;
+        color: var(--highlight);
+    }
+  }

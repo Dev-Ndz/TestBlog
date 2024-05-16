@@ -1,0 +1,31 @@
+<div class="wrapper">
+  <div class="row space-between">
+    <h1>{{ post.title }}</h1>
+    <div class="admin row gap-1" *ngIf="this.authService.isLoggedIn()">
+        <button
+        type="button"
+        pButton
+        icon="pi pi-pencil"
+        (click)="editPost()"
+        label="Edit"
+      ></button>
+      <button
+        type="button"
+        pButton
+        icon="pi pi-trash"
+        (click)="deletePost()"
+        label="Delete"
+      ></button>
+    </div>
+
+  </div>
+  <div class="row space-between">
+    <div class="row space-between">
+        <div>{{formatDate(post.date)}}</div>
+        <div>{{post.views}} views</div>
+        <div>{{post.likes}} likes</div>
+    </div>
+    <div class="CTA"></div>
+  </div>
+  <p>{{post.content}}</p>
+</div>

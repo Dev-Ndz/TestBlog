@@ -1,0 +1,45 @@
+{
+  "data": {
+    "current_page": 1,
+    "data": [
+      {
+        "id": 1,
+        "category_id": 2,
+        "title": "firstblog",
+        "content": "blablabla",
+        "image": "[]",
+        "views": 0,
+        "likes": 0,
+        "created_at": "2024-05-15T10:10:25.000000Z",
+        "updated_at": "2024-05-15T10:10:25.000000Z"
+      }
+    ],
+    "first_page_url": "http://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs?page=1",
+    "from": 1,
+    "last_page": 1,
+    "last_page_url": "http://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs?page=1",
+    "links": [
+      {
+        "url": null,
+        "label": "&laquo; Previous",
+        "active": false
+      },
+      {
+        "url": "http://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs?page=1",
+        "label": "1",
+        "active": true
+      },
+      {
+        "url": null,
+        "label": "Next &raquo;",
+        "active": false
+      }
+    ],
+    "next_page_url": null,
+    "path": "http://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs",
+    "per_page": 3,
+    "prev_page_url": null,
+    "to": 1,
+    "total": 1
+  }
+}

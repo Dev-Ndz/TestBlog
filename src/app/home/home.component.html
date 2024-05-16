@@ -1,0 +1,38 @@
+<div class="bg-img">
+  <div class="gradient"></div>
+</div>
+<section class="title-section column">
+  <div class="wrapper column full-center">
+    <h1 class="title">How to blog 101</h1>
+    <h2 class="subtitle">Empowering Bloggers, One Post at a Time</h2>
+  </div>
+
+  <div class="limited-width">
+    <h3 class="section-title mb-1">What's this blog ?</h3>
+    <p class="mb-2">
+      Welcome to "How to Blog 101" – your ultimate destination for mastering the
+      art of blogging! Whether you're a beginner seeking guidance or a seasoned
+      blogger looking to refine your skills, our platform is designed to empower
+      you with invaluable insights, practical tips, and expert advice. From
+      crafting engaging content to optimizing your blog's performance and
+      growing your audience, we cover it all. Join our vibrant community of
+      aspiring and experienced bloggers as we navigate the dynamic world of
+      digital storytelling together. Transform your passion for writing into
+      impactful blogs and unlock your full potential with "How to Blog 101"
+      today!
+    </p>
+  </div>
+</section>
+
+<!-- Posts selection -->
+<section>
+  <h3 class="section-title mb-1">Latest posts</h3>
+  <div class="row wrap gap-1 space-between limited-width">
+    <app-card
+      *ngFor="let post of posts"
+      [post]="post"
+      (edit)="toggleEditPopup($event)"
+      (delete)="toggleDeletePopup($event)"
+    />
+  </div>
+</section>
