@@ -1,3 +1,35 @@
-.wrapper{
-    width:1000px;
+.bg-img {
+  background-position: center;
+  width: 100vw;
+  height: 50vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
+.gradient {
+  width: 100%;
+  height: 150px;
+  background-color: rgba(56, 56, 56, 0.5);
+  z-index: 1;
+}
+
+.content-inside {
+  position: absolute;
+  bottom: 50vh;
+  height: 150px;
+  padding: 1.5rem 3rem;
+  display: block;
+  max-width: 1400px;
+}
+
+.content-outside {
+  position: absolute;
+  top: 50vh;
+  padding: 1.5rem 3rem;
+  max-width: 1400px;
+}
+

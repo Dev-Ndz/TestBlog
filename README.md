@@ -1,27 +1,69 @@
-# FrontEnd
+# Blog-site
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+by Hazar & Nicolas
 
-## Development server
+## Installation
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### front-end
 
-## Code scaffolding
+In order to run the front-end, you'll need to install angular with :
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+npm install -g @angular/cli
+```
 
-## Build
+Route::post('/auth/register', [UserController::class, 'register']);
+{
+    name
+    email
+    password(min 6 char)
+    password_confirmation (same as password)
+    userType:"admin" / "user"
+}
+return : confirm message
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Route::post('/auth/login', [UserController::class, 'login']);
+{
+    email
+    password
+}
 
-## Running unit tests
+return {message token}
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+Route::post('/auth/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+nothing to send
 
-## Further help
+// User routes
+Route::middleware(['auth:sanctum', 'userMiddleware'])->group(function() {
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
+Route::get('/categories/{id}/blogs', [BlogController::class, 'getBlogsByCategory'])->name('blogs.category');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
+});
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+// Admin routes
+
+Route::middleware(['auth:sanctum', 'adminMiddleware'])->group(function() {
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+Route::get('/blogs/{id}', [BlogController::class, 'show'])->name('blogs.show');
+Route::get('/categories/{id}/blogs', [BlogController::class, 'getBlogsByCategory'])->name('blogs.category');
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
+Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
+
+{title, content category_id, image(the actual image)} - via form-data
+
+Route::put('/blogs/{id}', [BlogController::class, 'update'])->name('blogs.update');
+Route::delete('/blogs/{id}', [BlogController::class, 'delete'])->name('blogs.delete');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+
+{name:"IT"}
+return name, id, date
+
+Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+Route::delete('/categories/{id}', [CategoryController::class, 'delete'])->name('categories.delete');
+
+});

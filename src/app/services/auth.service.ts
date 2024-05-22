@@ -66,6 +66,18 @@ export class AuthService {
     return this.http.post(url, data)
   }
 
+  put(url:string, data:any): Observable<any>{
+    this.cookieService.set('auth_token', this.AUTH_TOKEN)
+    console.log(this.AUTH_TOKEN)
+    return this.http.put(url, data)
+  }
+
+  delete(url:string): Observable<any>{
+    this.cookieService.set('auth_token', this.AUTH_TOKEN)
+    console.log(this.AUTH_TOKEN)
+    return this.http.delete(url)
+  }
+
   private storeJwtToken(jwt: string) {
     localStorage.setItem(this.JWT_TOKEN, jwt);
   }
