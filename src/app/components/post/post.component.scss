@@ -17,12 +17,11 @@
   background-color: rgba(56, 56, 56, 0.5);
   z-index: 1;
 }
-.content{
+.content {
   // position: relative;
-  top:-230px;
+  top: -230px;
 }
 .content-inside {
-
   // top: 50vh;
   height: 150px;
   padding: 1.5rem 3rem;
@@ -37,3 +36,8 @@
   max-width: 1400px;
 }
 
+.checkbox * {
+  height: 24px;
+  width: 24px;
+  font-size: 24px;
+}

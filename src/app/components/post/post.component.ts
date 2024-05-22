@@ -40,16 +40,35 @@ export class PostComponent {
     likes: 0,
   };
 
-  formatDate = (date: string): string =>
-    this.datePipe.transform(date, "EEE d MMM yyyy") || "";
+  isLiked: boolean = false;
+
+  editPost = () => this.navigateToEditPost(this.post);
+  onDelete = () => this.deletePost();
+  handleCheckbox = (): void => {
+    this.isLiked = !this.isLiked;
+    this.isLiked ? this.likePost() : this.dislikePost();
+  };
+  getPost(): void {
+    const id = Number(this.route.snapshot.paramMap.get("id"));
+    this.postsService
+      .getPostById(
+        "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/" + id
+      )
+      .subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.post = response.data;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+  }
 
   navigateToEditPost = (post: Post) => {
     console.log("redirect to edit...");
     this.router.navigate(["edit-post/" + post.id]);
   };
-
-  editPost = () => this.navigateToEditPost(this.post);
-  onDelete = () => this.deletePost();
 
   deletePost = () => {
     this.authService
@@ -68,23 +87,6 @@ export class PostComponent {
       });
     this.location.back();
   };
-
-  getPost(): void {
-    const id = Number(this.route.snapshot.paramMap.get("id"));
-    this.postsService
-      .getPostById(
-        "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/" + id
-      )
-      .subscribe({
-        next: (response: any) => {
-          console.log(response);
-          this.post = response.data;
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
-  }
 
   likePost = (): void => {
     this.authService
@@ -119,6 +121,9 @@ export class PostComponent {
         },
       });
   };
+
+  formatDate = (date: string): string =>
+    this.datePipe.transform(date, "EEE d MMM yyyy") || "";
 
   ngOnInit() {
     this.getPost();
