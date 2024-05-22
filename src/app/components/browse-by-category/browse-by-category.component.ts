@@ -20,12 +20,30 @@ export class BrowseByCategoryComponent {
 
   posts: Post[] = [];
 
-  fetchPosts() {
-    console.log("fetching post by category");
-    const id = Number(this.route.snapshot.paramMap.get("id"));
+  category: any;
+
+  id = Number(this.route.snapshot.paramMap.get("id"));
+
+  fetchCategory() {
     this.authservice
       .get(
-        `https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/categories/${id}/blogs`
+        `https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/categories/${this.id}`
+      )
+      .subscribe({
+        next: (response: any) => {
+          console.log("fetching category by id", response);
+          this.category = response;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+  }
+
+  fetchPosts() {
+    this.authservice
+      .get(
+        `https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/categories/${this.id}/blogs`
       )
       .subscribe({
         next: (response: any) => {
@@ -40,5 +58,6 @@ export class BrowseByCategoryComponent {
 
   ngOnInit() {
     this.fetchPosts();
+    this.fetchCategory();
   }
 }
