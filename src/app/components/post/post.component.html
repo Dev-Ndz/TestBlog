@@ -2,9 +2,6 @@
   class="bg-img"
   [ngStyle]="{ 'background-image': 'url(' + post.image + ')' }"
 >
-
-</div>
-<div>
 <div class="content-inside gradient wrapper">
   <div class="row space-between">
     <h1 class="grow">{{ post.title }}</h1>
@@ -14,15 +11,15 @@
         pButton
         icon="pi pi-pencil"
         (click)="editPost()"
-        label="Edit"
-      ></button>
+
+      >&nbsp; Edit</button>
       <button
         type="button"
         pButton
         icon="pi pi-trash"
         (click)="onDelete()"
-        label="Delete"
-      ></button>
+
+      >&nbsp; Delete</button>
     </div>
   </div>
   <div class="row space-between">
@@ -31,11 +28,28 @@
       <div>{{ post.views }} views</div>
       <div>{{ post.likes }} likes</div>
     </div>
-    <div class="CTA"></div>
+    <div class="CTA">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-thumbs-up-fill"
+        (click)="likePost()"
+      ></button>
+      <button
+      type="button"
+      pButton
+      icon="pi pi-thumbs-down-fill"
+      (click)="dislikePost()">
+        
+      </button>
+    </div>
   </div>
 </div>
+</div>
+
+
 
 <div class="content-outside">
   <p class="wrapper">{{ post.content }}</p>
 </div>
-</div>
+

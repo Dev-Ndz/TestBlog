@@ -41,6 +41,7 @@ $front-end-theme: mat.define-light-theme(
 @import "./styles/variables.scss";
 @import "primeng/resources/themes/lara-light-teal/theme.css";
 @import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
 @import "./styles/overrides.scss";
 
 * {
@@ -196,7 +197,6 @@ button {
 html,
 body {
   height: 100%;
-
 }
 body {
   margin: 0;

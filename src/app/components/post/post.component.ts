@@ -86,6 +86,40 @@ export class PostComponent {
       });
   }
 
+  likePost = (): void => {
+    this.authService
+      .put(
+        `https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/${this.post.id}/like`,
+        {}
+      )
+      .subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.post = response.data;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+  };
+
+  dislikePost = (): void => {
+    this.authService
+      .put(
+        `https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/${this.post.id}/dislike`,
+        {}
+      )
+      .subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.post = response.data;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+  };
+
   ngOnInit() {
     this.getPost();
   }
