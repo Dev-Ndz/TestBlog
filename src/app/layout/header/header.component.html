@@ -4,7 +4,6 @@
     class="search-bar"
     placeholder="search..."  
   >
-  <button (click)="getBlogs()">get Blogs</button>
   <app-category-menu />
   <!-- Create new post button -->
   <a routerLink="/new-post" *ngIf="this.authService.isLoggedIn()">New Post</a>

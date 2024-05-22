@@ -1,31 +1,32 @@
-import { Component } from '@angular/core';
-import { Post, Posts } from '../../types';
-import { CardComponent } from '../components/card/card.component';
-import { PostsService } from '../services/posts.service';
-import { CommonModule } from '@angular/common';
-import { EditPopupComponent } from '../components/edit-popup/edit-popup.component';
-import { ButtonModule } from 'primeng/button';
-import { AuthService } from '../services/auth.service';
+import { Component } from "@angular/core";
+import { Post, Posts } from "../../types";
+import { CardComponent } from "../components/card/card.component";
+import { PostsService } from "../services/posts.service";
+import { CommonModule } from "@angular/common";
+import { EditPopupComponent } from "../components/edit-popup/edit-popup.component";
+import { ButtonModule } from "primeng/button";
+import { AuthService } from "../services/auth.service";
 
 @Component({
-  selector: 'app-home',
+  selector: "app-home",
   standalone: true,
-  imports: [CardComponent, CommonModule, EditPopupComponent, ButtonModule, ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  imports: [CardComponent, CommonModule, EditPopupComponent, ButtonModule],
+  templateUrl: "./home.component.html",
+  styleUrl: "./home.component.scss",
 })
 export class HomeComponent {
-  constructor(private postsService: PostsService, private authService: AuthService) {}
+  constructor(
+    private postsService: PostsService,
+    private authService: AuthService
+  ) {}
 
   posts: Post[] = [];
 
-
   // testRoute = () => {
-    
+
   //   this.authService.getStuff().subscribe((r) => console.log(r))
 
   // }
- 
 
   displayEditPopup: boolean = false;
   displayAddPopup: boolean = false;
@@ -43,10 +44,10 @@ export class HomeComponent {
     id: 0,
     category_id: 1,
     image: [],
-    title: '',
-    date: '',
-    content: '',
-    slug: '',
+    title: "",
+    date: "",
+    content: "",
+    slug: "",
     views: 0,
     likes: 0,
   };
@@ -70,16 +71,18 @@ export class HomeComponent {
    *                  *
    ********************/
   fetchPosts() {
-    this.postsService.getPosts('https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs').subscribe({
-      next: (response:any) => {
-        console.log("fetching posts...")
-        console.log(response.data.data)
-        this.posts = response.data.data;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    this.postsService
+      .getPosts("https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs")
+      .subscribe({
+        next: (response: any) => {
+          console.log("fetching posts...");
+          console.log(response);
+          this.posts = response.data.data;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
   editPosts(post: Post, id: number) {
     this.postsService
@@ -95,7 +98,7 @@ export class HomeComponent {
       });
   }
   addPosts(post: Post) {
-    this.postsService.addPosts('http://localhost:3001/posts', post).subscribe({
+    this.postsService.addPosts("http://localhost:3001/posts", post).subscribe({
       next: (data) => {
         console.log(data);
         this.fetchPosts();
@@ -105,7 +108,7 @@ export class HomeComponent {
       },
     });
   }
-  
+
   deletePosts(id: number) {
     this.postsService
       .deletePosts(`http://localhost:3000/posts/${id}`)
@@ -121,7 +124,7 @@ export class HomeComponent {
   }
 
   onCardOutput(post: Post) {
-    console.log(post, 'output');
+    console.log(post, "output");
   }
 
   ngOnInit() {

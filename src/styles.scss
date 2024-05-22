@@ -1,7 +1,6 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -20,15 +19,18 @@ $front-end-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$front-end-theme: mat.define-light-theme((
-  color: (
-    primary: $front-end-primary,
-    accent: $front-end-accent,
-    warn: $front-end-warn,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0
-));
+
+$front-end-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $front-end-primary,
+      accent: $front-end-accent,
+      warn: $front-end-warn,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -39,14 +41,9 @@ $front-end-theme: mat.define-light-theme((
 @import "./styles/variables.scss";
 @import "primeng/resources/themes/lara-light-teal/theme.css";
 @import "primeng/resources/primeng.css";
+@import "./styles/overrides.scss";
 
-html,
-body,
-p,
-h1,
-h2,
-h3,
-h4 {
+* {
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
@@ -166,7 +163,9 @@ a {
     color: var(--text-color);
   }
 }
-
+.pad-1 {
+  padding: 1rem;
+}
 button {
   padding: 0.5rem 2rem;
   background-color: var(--highlight);
@@ -194,5 +193,12 @@ button {
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

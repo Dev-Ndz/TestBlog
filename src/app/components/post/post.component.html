@@ -1,8 +1,15 @@
-<div class="wrapper">
+<div
+  class="bg-img"
+  [ngStyle]="{ 'background-image': 'url(' + post.image + ')' }"
+>
+
+</div>
+<div>
+<div class="content-inside gradient wrapper">
   <div class="row space-between">
-    <h1>{{ post.title }}</h1>
+    <h1 class="grow">{{ post.title }}</h1>
     <div class="admin row gap-1" *ngIf="this.authService.isLoggedIn()">
-        <button
+      <button
         type="button"
         pButton
         icon="pi pi-pencil"
@@ -13,19 +20,22 @@
         type="button"
         pButton
         icon="pi pi-trash"
-        (click)="deletePost()"
+        (click)="onDelete()"
         label="Delete"
       ></button>
     </div>
-
   </div>
   <div class="row space-between">
     <div class="row space-between">
-        <div>{{formatDate(post.date)}}</div>
-        <div>{{post.views}} views</div>
-        <div>{{post.likes}} likes</div>
+      <div>{{ formatDate(post.date) }}</div>
+      <div>{{ post.views }} views</div>
+      <div>{{ post.likes }} likes</div>
     </div>
     <div class="CTA"></div>
   </div>
-  <p>{{post.content}}</p>
+</div>
+
+<div class="content-outside">
+  <p class="wrapper">{{ post.content }}</p>
+</div>
 </div>

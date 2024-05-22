@@ -1,52 +1,72 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Post } from '../../../types';
-import { ButtonModule } from 'primeng/button';
-import { FormsModule } from '@angular/forms';
-import { PostsService } from '../../services/posts.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Post } from "../../../types";
+import { ButtonModule } from "primeng/button";
+import { FormsModule } from "@angular/forms";
+import { PostsService } from "../../services/posts.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AuthService } from "../../services/auth.service";
+import { CommonModule, Location } from "@angular/common";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
-  selector: 'app-edit-post',
+  selector: "app-edit-post",
   standalone: true,
-  imports: [ButtonModule, FormsModule],
-  templateUrl: './edit-post.component.html',
-  styleUrl: './edit-post.component.scss',
+  imports: [ButtonModule, FormsModule, CommonModule],
+  templateUrl: "./edit-post.component.html",
+  styleUrls: ["./edit-post.component.scss"],
 })
-export class EditPostComponent {
+export class EditPostComponent implements OnInit {
   constructor(
     private router: Router,
     private postsService: PostsService,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private http: HttpClient,
+    private location: Location
   ) {}
 
   post: Post = {
-    category_id: 3,
+    category_id: 1,
     image: [],
-    title: 'This is a Title',
-    date: '',
-    content: 'Lorem Ipsum content',
-    slug: '',
+    title: "",
+    date: "",
+    content: "",
+    slug: "",
     views: 0,
     likes: 0,
   };
 
+  header: string = "New Post";
+  isEdit: boolean = false;
+  selectedFile: File | null = null;
+  message: string = "";
+  formData: FormData = new FormData();
+
   @Output() confirm = new EventEmitter<Post>();
 
-  header: string = 'New Post';
-
+  ngOnInit() {
+    this.getPost();
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      console.log("File selected:", this.selectedFile);
+    }
+  }
   getPost(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = Number(this.route.snapshot.paramMap.get("id"));
     if (id) {
+      this.isEdit = true;
       this.postsService
         .getPostById(
-          'https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/' + id
+          "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/" + id
         )
         .subscribe({
           next: (post: Post) => {
             this.post = post;
-            this.header = 'Edit Post';
+            this.header = "Edit Post";
+            console.log("Post loaded:", this.post);
           },
           error: (error) => {
             console.log(error);
@@ -54,114 +74,60 @@ export class EditPostComponent {
         });
     }
   }
+  onCreate(): void {
+    this.formData.append("title", this.post.title);
+    this.formData.append("content", this.post.content);
+    this.formData.append("category_id", this.post.category_id.toString());
+    if (this.selectedFile) {
+      this.formData.append("image", this.selectedFile, this.selectedFile.name);
+    }
+    console.log("FormData before sending:", this.formData);
 
-  ngOnInit() {
-    this.getPost();
-  }
-
-  onConfirm = () => {
-    console.log(this.post);
-    this.authService
+    this.http
       .post(
-        'https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs',
-        this.post
+        "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs",
+        this.formData
       )
       .subscribe({
-        next: (data) => console.log('new post created:', data),
-        error: (err) => console.log(err),
+        next: (data) => {
+          console.log("new post created:", data);
+          this.message = "Blog post created successfully!";
+        },
+        error: (err) => {
+          console.log(err);
+          this.message = "An error occurred. Please try again.";
+        },
       });
-  };
-  onCancel = () => console.log('Abort !!!');
+  }
+  onEdit(): void {
+    const id = Number(this.route.snapshot.paramMap.get("id"));
+    this.formData.append("title", this.post.title);
+    this.formData.append("content", this.post.content);
+    this.formData.append("category_id", this.post.category_id.toString());
+    if (this.selectedFile) {
+      this.formData.append("image", this.selectedFile, this.selectedFile.name);
+    }
+    console.log("FormData before sending:", this.formData);
+
+    this.http
+      .post(
+        "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/" +
+          id.toString(),
+        this.formData
+      )
+      .subscribe({
+        next: (data) => {
+          console.log("post edited:", data);
+          this.message = "Blog post created successfully!";
+          this.location.back();
+        },
+        error: (err) => {
+          console.log(err);
+          this.message = "An error occurred. Please try again.";
+        },
+      });
+  }
+  onCancel(): void {
+    this.location.back();
+  }
 }
-
-
-// import { Component, EventEmitter, Output } from '@angular/core';
-// import { Post } from '../../../types';
-// import { ButtonModule } from 'primeng/button';
-// import { FormsModule } from '@angular/forms';
-// import { PostsService } from '../../services/posts.service';
-// import { ActivatedRoute, Router } from '@angular/router';
-// import { AuthService } from '../../services/auth.service';
-
-// @Component({
-//   selector: 'app-edit-post',
-//   standalone: true,
-//   imports: [ButtonModule, FormsModule],
-//   templateUrl: './edit-post.component.html',
-//   styleUrl: './edit-post.component.scss',
-// })
-// export class EditPostComponent {
-//   constructor(
-//     private router: Router,
-//     private postsService: PostsService,
-//     private route: ActivatedRoute,
-//     private authService: AuthService
-//   ) {}
-
-//   post: Post = {
-//     category_id: 3,
-//     image: [], // Assuming this is where you want to store the file
-//     title: 'This is a Title',
-//     date: '',
-//     content: 'Lorem Ipsum content',
-//     slug: '',
-//     views: 0,
-//     likes: 0,
-//   };
-
-//   @Output() confirm = new EventEmitter<Post>();
-
-//   header: string = 'New Post';
-
-//   // Function to handle file selection
-//   onFileSelected(event: any) {
-//     if (event.target.files.length > 0) {
-//       const file = event.target.files[0];
-//       // Store the file in the post object
-//       this.post.image.push(file);
-//     }
-//   }
-
-//   getPost(): void {
-//     const id = Number(this.route.snapshot.paramMap.get('id'));
-//     if (id) {
-//       this.postsService
-//         .getPostById('https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/' + id)
-//         .subscribe({
-//           next: (post: Post) => {
-//             this.post = post;
-//             this.header = 'Edit Post';
-//           },
-//           error: (error) => {
-//             console.log(error);
-//           },
-//         });
-//     }
-//   }
-
-//   ngOnInit() {
-//     this.getPost();
-//   }
-
-//   onConfirm = () => {
-//     // Create FormData object to send both text and file data
-//     const formData = new FormData();
-//     formData.append('title', this.post.title);
-//     formData.append('category_id', this.post.category_id.toString());
-//     formData.append('content', this.post.content);
-//     // Append file to the FormData object
-//     if (this.post.image.length > 0) {
-//       formData.append('image', this.post.image[0]);
-//     }
-//     console.log(formData)
-//     // Make the HTTP request with FormData
-//     this.authService
-//       .post('https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs', formData)
-//       .subscribe({
-//         next: (data) => console.log('new post created:', data),
-//         error: (err) => console.log(err),
-//       });
-//   };
-
-//   onCancel = () => console.log('Abort !!!');
-// }

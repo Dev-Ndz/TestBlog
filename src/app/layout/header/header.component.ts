@@ -16,7 +16,6 @@ export class HeaderComponent {
   authService = inject(AuthService);
   connected = this.authService.isLoggedIn();
 
-  getBlogs = () => this.authService.getBlogs()
 }
 
 

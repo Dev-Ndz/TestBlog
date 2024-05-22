@@ -1,5 +1,5 @@
 <div class="column card-wrapper">
-  <img src="https://img.freepik.com/free-photo/online-message-blog-chat-communication-envelop-graphic-icon-concept_53876-139717.jpg?size=626&ext=jpg&ga=GA1.1.1480204119.1715817600&semt=sph" alt="" />
+  <img [src]="post.image" alt="" />
   <div class="column text-wrapper gap-05" routerLink="/post/{{ post.id }}">
     <h2 class="title">{{ post.title }}</h2>
     <div class="row space-between">
@@ -14,4 +14,3 @@
     <div class="read-more">read more</div>
   </div>
 </div>
-
