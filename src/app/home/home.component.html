@@ -31,8 +31,6 @@
     <app-card
       *ngFor="let post of posts"
       [post]="post"
-      (edit)="toggleEditPopup($event)"
-      (delete)="toggleDeletePopup($event)"
     />
   </div>
 </section>

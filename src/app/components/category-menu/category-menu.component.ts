@@ -3,11 +3,12 @@ import {MatMenuModule} from '@angular/material/menu'
 import { MatButtonModule } from '@angular/material/button'
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-category-menu',
   standalone: true,
-  imports: [MatButtonModule, MatMenuModule, CommonModule],
+  imports: [MatButtonModule, MatMenuModule, CommonModule, RouterLink],
   templateUrl: './category-menu.component.html',
   styleUrl: './category-menu.component.scss'
 })

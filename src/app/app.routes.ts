@@ -6,6 +6,7 @@ import { PostComponent } from './components/post/post.component';
 import { EditPostComponent } from './components/edit-post/edit-post.component';
 import { authGuard } from './auth.guard';
 import { LoginComponent } from './components/login/login.component';
+import { BrowseByCategoryComponent } from './components/browse-by-category/browse-by-category.component';
 
 export const routes: Routes = [
   {
@@ -19,6 +20,10 @@ export const routes: Routes = [
   {
     path: 'post/:id',
     component: PostComponent,
+  },
+  {
+    path: 'category/:id',
+    component: BrowseByCategoryComponent,
   },
   {
     path: 'new-post',

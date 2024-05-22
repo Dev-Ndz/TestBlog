@@ -59,6 +59,11 @@ export class AuthService {
     this.storeJwtToken(tokens.token);
     this.IsAuthenticatedSubject.next(true);
   }
+  get(url:string): Observable<any>{
+    this.cookieService.set('auth_token', this.AUTH_TOKEN)
+    console.log(this.AUTH_TOKEN)
+    return this.http.get(url)
+  }
 
   post(url:string, data:any): Observable<any>{
     this.cookieService.set('auth_token', this.AUTH_TOKEN)
