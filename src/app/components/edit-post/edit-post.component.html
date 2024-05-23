@@ -1,53 +1,67 @@
-<h1>{{ header }}</h1>
+<div
+  class="bg-img"
+  [ngStyle]="{ 'background-image': 'url(' + this.post.image + ')' }"
+>
+  <div class="content-inside gradient">
+    <div class="row space-between">
+      <div class="row grow">
+        <input
+          id="title"
+          type="text"
+          class="grow"
+          [(ngModel)]="this.post.title"
+        />
+        <div class="checkbox"><i class="pi pi-heart"></i></div>
+      </div>
 
-<div class="column gap-1">
-  <!-- TITLE -->
-  <div class="row gap-05">
-    <span class="price-label"> Title: </span>
-    <input id="title" type="text" [(ngModel)]="post.title" />
-  </div>
+      <div class="row gap-1">
+        <button
+          *ngIf="!isEdit"
+          type="button"
+          pButton
+          icon="pi pi-check"
+          (click)="onCreate()"
+        >
+          Create new post
+        </button>
+        <button
+          *ngIf="isEdit"
+          type="button"
+          pButton
+          icon="pi pi-check"
+          (click)="onEdit()"
+        >
+          Confirm
+        </button>
+        <button type="button" pButton icon="pi pi-times" (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
+    </div>
 
-  <!-- URL TO IMG -->
-  <div class="row gap-05">
-    <span class="price-label"> Image: </span>
-    <input
-      id="image"
-      type="file"
-      [(ngModel)]="post.image"
-      (change)="onFileSelected($event)"
-    />
-  </div>
-
-  <div class="row gap-05">
-    <span class="price-label"> Category: </span>
-    <input ide="category_id" type="text" [(ngModel)]="post.category_id" />
-  </div>
-
-  <!-- CONTENT  -->
-  <div class="row gap-05">
-    <span class="price-label"> Content: </span>
-    <input id="content" type="text" [(ngModel)]="post.content" />
+    <div class="row gap-1">
+      <span class="price-label"> Category: </span>
+      <input
+        ide="category_id"
+        type="text"
+        [(ngModel)]="this.post.category_id"
+      />
+    </div>
   </div>
 </div>
+<div class="content-outside">
+  <textarea id="content" size="2000" [(ngModel)]="this.post.content"></textarea>
+</div>
 
-<button
-  *ngIf="!isEdit"
-  type="button"
-  pButton
-  icon="pi pi-check"
-  (click)="onCreate()"
->
-  Create old method
-</button>
-<button
-  *ngIf="isEdit"
-  type="button"
-  pButton
-  icon="pi pi-check"
-  (click)="onEdit()"
->
-  Confirm
-</button>
-<button type="button" pButton icon="pi pi-times" (click)="onCancel()">
-  Cancel
-</button>
+<!-- URL TO IMG -->
+<div class="row gap-05">
+  <span class="price-label"> Image: </span>
+  <input
+    id="image"
+    type="file"
+    [(ngModel)]="post.image"
+    (change)="onFileSelected($event)"
+  />
+</div>
+
+<div class="row gap-05"></div>

@@ -1,0 +1,49 @@
+.bg-img {
+  background-position: center;
+  background-size: cover;
+  width: 100vw;
+  height: 50vh;
+  // position: relative;
+  // top: -80px;
+  right: 0;
+  z-index: -1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.gradient {
+  width: 100%;
+  height: 150px;
+  background-color: rgba(56, 56, 56, 0.5);
+  z-index: 1;
+}
+.content {
+  // position: relative;
+  top: -230px;
+}
+.content-inside {
+  // top: 50vh;
+  height: 150px;
+  padding: 1.5rem 3rem;
+  display: block;
+  max-width: 1400px;
+}
+
+.content-outside {
+  // position: absolute;
+  // top: 50vh;
+  padding: 1.5rem 3rem;
+  max-width: 1400px;
+}
+
+.checkbox * {
+  height: 24px;
+  width: 24px;
+  font-size: 24px;
+  margin: 0 2rem;
+}
+
+#content {
+  width: 100%;
+  height: 100%;
+}

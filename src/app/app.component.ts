@@ -21,12 +21,4 @@ constructor( private http : HttpClientService){}
     this.http.getCsrf();
   }
 
-  // constructor() {
-  //   this.authService
-  //     .login({ email: 'nico@nico.nico', password: 'nico' })
-  //     .subscribe({
-  //       next: (data) => console.log(data),
-  //       error: (err) => console.log(err),
-  //     });
-  // }
 }
