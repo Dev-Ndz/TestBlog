@@ -4,4 +4,9 @@
   padding: 0.5rem 3rem;
   align-items: center;
   position: absolute;
+  transition: background-color 0.3s ease; /* Add this line */
+}
+
+.wrapper:hover {
+  background-color: rgba(66, 66, 66, 0.9);
 }
