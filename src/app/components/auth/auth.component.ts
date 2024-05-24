@@ -1,26 +1,28 @@
-import { Component, Input, inject } from '@angular/core';
-import { DialogModule } from 'primeng/dialog';
-import { AuthService } from '../../services/auth.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, Input, inject } from "@angular/core";
+import { DialogModule } from "primeng/dialog";
+import { AuthService } from "../../services/auth.service";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-auth',
+  selector: "app-auth",
   standalone: true,
   imports: [DialogModule, CommonModule, FormsModule],
-  templateUrl: './auth.component.html',
-  styleUrl: './auth.component.scss',
+  templateUrl: "./auth.component.html",
+  styleUrl: "./auth.component.scss",
 })
 export class AuthComponent {
   @Input() displayLogin: boolean = false;
   @Input() displayRegister: boolean = false;
   authService = inject(AuthService);
+  router = inject(Router);
 
-  name: string = '';
-  email: string = '';
-  password: string = '';
-  password_confirmation: string = '';
-  userType: string = '';
+  name: string = "";
+  email: string = "";
+  password: string = "";
+  password_confirmation: string = "";
+  userType: string = "";
 
   user = this.authService.getUser();
 
@@ -28,28 +30,31 @@ export class AuthComponent {
     this.authService
       .login({ email: this.email, password: this.password })
       .subscribe({
-        next: () => (this.displayLogin = false),
+        next: () => {
+          this.displayLogin = false;
+          this.router.navigate(["/"]);
+        },
+
         error: (err) => console.log(err),
       });
   };
   onRegister = () => {
     this.authService
-    .register({
-       name:this.name, 
-       email: this.email, 
-       password: this.password,
-       password_confirmation: this.password_confirmation,
-       userType : this.userType
-    })
-    .subscribe({
-      next: (data) => {
-        this.displayRegister = false;
-        console.log(data)
-      },
-      error: (err) => console.log(err),
-    });
-};
-  
+      .register({
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.password_confirmation,
+        userType: this.userType,
+      })
+      .subscribe({
+        next: (data) => {
+          this.displayRegister = false;
+          console.log(data);
+        },
+        error: (err) => console.log(err),
+      });
+  };
 
   onLogOut = () => {
     this.authService.logout();

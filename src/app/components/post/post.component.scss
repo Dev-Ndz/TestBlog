@@ -36,8 +36,15 @@
   max-width: 1400px;
 }
 
-.checkbox * {
-  height: 24px;
-  width: 24px;
-  font-size: 24px;
+.checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  * {
+    height: 24px;
+    width: 24px;
+    font-size: 24px;
+    margin-left: 1rem;
+  }
 }

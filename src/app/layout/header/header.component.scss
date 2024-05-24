@@ -10,3 +10,10 @@
 .wrapper:hover {
   background-color: rgba(66, 66, 66, 0.9);
 }
+
+h1 {
+  cursor: pointer;
+  &:hover {
+    color: var(--highlight);
+  }
+}

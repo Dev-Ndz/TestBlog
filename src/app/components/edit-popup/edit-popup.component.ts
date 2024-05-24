@@ -19,7 +19,7 @@ export class EditPopupComponent {
     category_id: 3,
     image: [],
     title: 'exemple',
-    date: '',
+    created_at: '',
     content: 'Lorem Ipsum',
     slug: '',
     views: 0,

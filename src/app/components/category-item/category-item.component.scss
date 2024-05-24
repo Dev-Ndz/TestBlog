@@ -1,0 +1,10 @@
+i {
+  color: var(--mid);
+  &:hover {
+    color: var(--highlight);
+  }
+}
+
+i.pi-trash:hover {
+  color: rgb(212, 24, 24);
+}

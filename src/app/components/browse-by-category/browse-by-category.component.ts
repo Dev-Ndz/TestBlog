@@ -3,7 +3,13 @@ import { CardComponent } from "../card/card.component";
 import { CommonModule } from "@angular/common";
 import { Post } from "../../../types";
 import { AuthService } from "../../services/auth.service";
-import { ActivatedRoute } from "@angular/router";
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  ParamMap,
+  Router,
+} from "@angular/router";
+import { distinctUntilChanged, filter, map, switchMap } from "rxjs";
 
 @Component({
   selector: "app-browse-by-category",
@@ -22,7 +28,7 @@ export class BrowseByCategoryComponent {
 
   category: any;
 
-  id = Number(this.route.snapshot.paramMap.get("id"));
+  id!: number;
 
   fetchCategory() {
     this.authservice
@@ -57,7 +63,13 @@ export class BrowseByCategoryComponent {
   }
 
   ngOnInit() {
-    this.fetchPosts();
-    this.fetchCategory();
+    // Subscribe to route parameter changes
+    this.route.paramMap.subscribe((params) => {
+      // Retrieve the id from route parameters
+      this.id = Number(params.get("id"));
+      // Fetch category and posts when id changes
+      this.fetchCategory();
+      this.fetchPosts();
+    });
   }
 }

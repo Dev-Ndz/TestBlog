@@ -1,4 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+// edit-post.component.ts
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from "@angular/core";
 import { Post } from "../../../types";
 import { ButtonModule } from "primeng/button";
 import { FormsModule } from "@angular/forms";
@@ -7,16 +14,19 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { CommonModule, DatePipe, Location } from "@angular/common";
 import { HttpClient } from "@angular/common/http";
-import { formatDate } from "../../utilities/dateHelper";
+import { SelectCategoryComponent } from "../select-category/select-category.component";
 
 @Component({
   selector: "app-edit-post",
   standalone: true,
-  imports: [ButtonModule, FormsModule, CommonModule],
+  imports: [ButtonModule, FormsModule, CommonModule, SelectCategoryComponent],
   templateUrl: "./edit-post.component.html",
   styleUrls: ["./edit-post.component.scss"],
 })
 export class EditPostComponent implements OnInit {
+  @ViewChild(SelectCategoryComponent)
+  selectCategoryComponent!: SelectCategoryComponent;
+
   constructor(
     private router: Router,
     private postsService: PostsService,
@@ -28,10 +38,10 @@ export class EditPostComponent implements OnInit {
   ) {}
 
   post: Post = {
-    category_id: 1,
+    category_id: 0,
     image: "",
     title: "",
-    date: "",
+    created_at: "",
     content: "",
     slug: "",
     views: 0,
@@ -49,6 +59,7 @@ export class EditPostComponent implements OnInit {
   ngOnInit() {
     this.getPost();
   }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -59,6 +70,7 @@ export class EditPostComponent implements OnInit {
       this.post.image = imgSrc;
     }
   }
+
   getPost(): void {
     const id = Number(this.route.snapshot.paramMap.get("id"));
     if (id) {
@@ -79,61 +91,99 @@ export class EditPostComponent implements OnInit {
         });
     }
   }
-  onCreate(): void {
+
+  async onCreate(): Promise<void> {
     this.formData.append("title", this.post.title);
     this.formData.append("content", this.post.content);
-    this.formData.append("category_id", this.post.category_id.toString());
+
+    if (this.selectCategoryComponent.isCreated()) {
+      this.post.category_id = this.selectCategoryComponent.selectedCategory;
+    } else if (this.selectCategoryComponent.selectedCategory == "") {
+      alert("edit comp : else if : please select cat");
+    } else {
+      this.selectCategoryComponent.addCategory().subscribe({
+        next: (data: any) => {
+          this.post.category_id = data.id;
+          this.formData.append("category_id", this.post.category_id.toString());
+        },
+        error: (err: any) => console.log(err),
+      });
+    }
     if (this.selectedFile) {
       this.formData.append("image", this.selectedFile, this.selectedFile.name);
     } else {
       this.formData.append("image", this.post.image);
     }
-    console.log("FormData before sending:", this.formData);
-
-    this.http
-      .post(
-        "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs",
-        this.formData
-      )
-      .subscribe({
-        next: (data) => {
-          console.log("new post created:", data);
-          this.message = "Blog post created successfully!";
-        },
-        error: (err) => {
-          console.log(err);
-          this.message = "An error occurred. Please try again.";
-        },
-      });
+    if (this.post.category_id == 0 || this.post.category_id == undefined) {
+      alert("please select cateogry or create a new one");
+    } else {
+      console.log("FormData before sending:", this.formData);
+      this.http
+        .post(
+          "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs",
+          this.formData
+        )
+        .subscribe({
+          next: (data) => {
+            console.log("new post created:", data);
+            this.message = "Blog post created successfully!";
+          },
+          error: (err) => {
+            console.log(err);
+            this.message = "An error occurred. Please try again.";
+          },
+        });
+    }
   }
+
   onEdit(): void {
     const id = Number(this.route.snapshot.paramMap.get("id"));
     this.formData.append("title", this.post.title);
     this.formData.append("content", this.post.content);
-    this.formData.append("category_id", this.post.category_id.toString());
+
+    if (this.selectCategoryComponent.isCreated()) {
+      this.post.category_id = this.selectCategoryComponent.selectedCategory.id;
+      this.formData.append("category_id", this.post.category_id.toString());
+    } else if (this.selectCategoryComponent.selectedCategory == "") {
+      alert("edit comp : else if : please select cat");
+    } else {
+      this.selectCategoryComponent.addCategory().subscribe({
+        next: (data: any) => {
+          this.post.category_id = data.id;
+          this.formData.append("category_id", this.post.category_id.toString());
+        },
+        error: (err: any) => console.log(err),
+      });
+    }
+
     if (this.selectedFile) {
       this.formData.append("image", this.selectedFile, this.selectedFile.name);
     }
-    console.log("FormData before sending:", this.formData);
+    if (this.post.category_id == 0 || this.post.category_id == undefined) {
+      alert("edit component : please select a category");
+    } else {
+      console.log("FormData before sending:", this.formData);
 
-    this.http
-      .post(
-        "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/" +
-          id.toString(),
-        this.formData
-      )
-      .subscribe({
-        next: (data) => {
-          console.log("post edited:", data);
-          this.message = "Blog post created successfully!";
-          this.location.back();
-        },
-        error: (err) => {
-          console.log(err);
-          this.message = "An error occurred. Please try again.";
-        },
-      });
+      this.http
+        .post(
+          "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/" +
+            id.toString(),
+          this.formData
+        )
+        .subscribe({
+          next: (data) => {
+            console.log("post edited:", data);
+            this.message = "Blog post created successfully!";
+            this.location.back();
+          },
+          error: (err) => {
+            console.log(err);
+            this.message = "An error occurred. Please try again.";
+          },
+        });
+    }
   }
+
   onCancel(): void {
     this.location.back();
   }

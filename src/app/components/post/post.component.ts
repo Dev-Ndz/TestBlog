@@ -33,12 +33,14 @@ export class PostComponent {
     category_id: 1,
     image: [],
     title: "",
-    date: "",
+    created_at: "",
     content: "",
     slug: "",
     views: 0,
     likes: 0,
   };
+
+  categoryName: string = "";
 
   isLiked: boolean = false;
 
@@ -56,8 +58,25 @@ export class PostComponent {
       )
       .subscribe({
         next: (response: any) => {
-          console.log(response);
+          console.log("fetching post :", response);
           this.post = response.data;
+          this.fetchCategory();
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+  }
+
+  fetchCategory() {
+    this.authService
+      .get(
+        `https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/categories/${this.post.category_id}`
+      )
+      .subscribe({
+        next: (response: any) => {
+          console.log("fetching category by id", response);
+          this.categoryName = response.name;
         },
         error: (error) => {
           console.log(error);

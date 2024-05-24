@@ -45,7 +45,7 @@ export class HomeComponent {
     category_id: 1,
     image: [],
     title: "",
-    date: "",
+    created_at: "",
     content: "",
     slug: "",
     views: 0,

@@ -38,7 +38,7 @@ export interface Post {
   content: string;
   slug:string;
   image?: any;
-  date: string;
+  created_at: string;
   views: number;
   likes: number;
 }

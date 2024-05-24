@@ -1,9 +1,10 @@
 <a mat-button [matMenuTriggerFor]="menu" class="category-menu">Category</a>
 <mat-menu #menu="matMenu">
-  <a
-    mat-menu-item
-    *ngFor="let category of categoryList"
-    [routerLink]="['/category', category.id]"
-    >{{ category.name }}</a
-  >
+  <div mat-menu-item *ngFor="let category of categoryList">
+    <app-category-item
+      [category]="category"
+      (refreshListRequest)="fetchCategories()"
+      class="row grow space-between gap-1"
+    />
+  </div>
 </mat-menu>

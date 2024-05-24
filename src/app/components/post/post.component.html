@@ -2,9 +2,20 @@
   class="bg-img"
   [ngStyle]="{ 'background-image': 'url(' + post.image + ')' }"
 >
-  <div class="content-inside gradient wrapper">
-    <div class="row space-between">
-      <h1 class="grow">{{ post.title }}</h1>
+  <div class="content-inside gradient">
+    <div class="row space-between mb-1">
+      <div class="row">
+        <h1>{{ post.title }}</h1>
+        <div class="checkbox">
+          <i
+            [ngClass]="isLiked ? 'pi pi-heart-fill' : 'pi pi-heart'"
+            [ngStyle]="{
+              color: isLiked ? 'var(--highlight)' : 'var(--text-color)'
+            }"
+            (click)="handleCheckbox()"
+          ></i>
+        </div>
+      </div>
       <div class="admin row gap-1" *ngIf="this.authService.isLoggedIn()">
         <button type="button" pButton icon="pi pi-pencil" (click)="editPost()">
           &nbsp; Edit
@@ -14,20 +25,12 @@
         </button>
       </div>
     </div>
+    <div class="mb-05">{{ categoryName }}</div>
     <div class="row space-between">
-      <div class="row space-between">
-        <div>{{ formatDate(post.date) }}</div>
+      <div class="row gap-1">
         <div>{{ post.views }} views</div>
         <div>{{ post.likes }} likes</div>
-      </div>
-      <div class="CTA">
-        <div class="checkbox">
-          <i
-            [ngClass]="isLiked ? 'pi pi-heart-fill' : 'pi pi-heart'"
-            [ngStyle]="{'color': isLiked ? 'var(--highlight)' : 'var(--text-color)'}"
-            (click)="handleCheckbox()"
-          ></i>
-        </div>
+        <div>{{ formatDate(post.created_at) }}</div>
       </div>
     </div>
   </div>

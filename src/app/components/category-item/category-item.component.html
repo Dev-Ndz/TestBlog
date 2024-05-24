@@ -1,0 +1,27 @@
+<a *ngIf="!editMode" [routerLink]="['/category', this.category.id]">{{
+  this.category.name
+}}</a>
+<form class="row gap-05">
+  <input
+    *ngIf="editMode"
+    id="title"
+    type="text"
+    name="newName"
+    [(ngModel)]="this.newName"
+    (click)="$event.stopPropagation()"
+  />
+  <i
+    *ngIf="editMode"
+    class="pi pi-check"
+    (click)="editCategory($event, this.category.id)"
+  ></i>
+  <i *ngIf="editMode" (click)="editModeOff($event)" class="pi pi-times"></i>
+</form>
+<div class="row gap-05">
+  <i *ngIf="!editMode" (click)="editModeOn($event)" class="pi pi-pencil"></i>
+  <i
+    *ngIf="!editMode"
+    (click)="deleteCategory($event, this.category.id)"
+    class="pi pi-trash"
+  ></i>
+</div>
