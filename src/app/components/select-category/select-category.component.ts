@@ -50,6 +50,7 @@ export class SelectCategoryComponent {
   }
 
   createCategory(name: string): Observable<any> {
+    console.log("create new category", name);
     return this.http.post(
       "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/categories",
       { name: name }
@@ -60,6 +61,5 @@ export class SelectCategoryComponent {
     return this.createCategory(this.selectedCategory).pipe(
       tap((data) => console.log("category created", data))
     );
-
   }
 }

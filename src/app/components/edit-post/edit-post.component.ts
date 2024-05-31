@@ -97,7 +97,9 @@ export class EditPostComponent implements OnInit {
     this.formData.append("content", this.post.content);
 
     if (this.selectCategoryComponent.isCreated()) {
-      this.post.category_id = this.selectCategoryComponent.selectedCategory;
+      this.post.category_id = this.selectCategoryComponent.selectedCategory.id;
+      console.log(this.post.category_id);
+      this.formData.append("category_id", this.post.category_id.toString());
     } else if (this.selectCategoryComponent.selectedCategory == "") {
       alert("edit comp : else if : please select cat");
     } else {
@@ -114,26 +116,25 @@ export class EditPostComponent implements OnInit {
     } else {
       this.formData.append("image", this.post.image);
     }
-    if (this.post.category_id == 0 || this.post.category_id == undefined) {
-      alert("please select cateogry or create a new one");
-    } else {
-      console.log("FormData before sending:", this.formData);
-      this.http
-        .post(
-          "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs",
-          this.formData
-        )
-        .subscribe({
-          next: (data) => {
-            console.log("new post created:", data);
-            this.message = "Blog post created successfully!";
-          },
-          error: (err) => {
-            console.log(err);
-            this.message = "An error occurred. Please try again.";
-          },
-        });
-    }
+
+    console.log("FormData before sending:", this.formData);
+    this.http
+      .post(
+        "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs",
+        this.formData
+      )
+      .subscribe({
+        next: (data: any) => {
+          console.log("new post created:", data);
+          console.log("id", data.data.id);
+          this.message = "Blog post created successfully!";
+          this.router.navigate(["/post", data.data.id]);
+        },
+        error: (err) => {
+          console.log(err);
+          this.message = "An error occurred. Please try again.";
+        },
+      });
   }
 
   onEdit(): void {
