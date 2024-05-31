@@ -92,9 +92,15 @@ export class EditPostComponent implements OnInit {
     }
   }
 
-  async onCreate(): Promise<void> {
+  onCreate(): void {
     this.formData.append("title", this.post.title);
     this.formData.append("content", this.post.content);
+
+    if (this.selectedFile) {
+      this.formData.append("image", this.selectedFile, this.selectedFile.name);
+    } else {
+      this.formData.append("image", this.post.image);
+    }
 
     if (this.selectCategoryComponent.isCreated()) {
       this.post.category_id = this.selectCategoryComponent.selectedCategory.id;
@@ -107,34 +113,15 @@ export class EditPostComponent implements OnInit {
         next: (data: any) => {
           this.post.category_id = data.id;
           this.formData.append("category_id", this.post.category_id.toString());
+          this.sendFormData(
+            "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs"
+          );
         },
         error: (err: any) => console.log(err),
       });
     }
-    if (this.selectedFile) {
-      this.formData.append("image", this.selectedFile, this.selectedFile.name);
-    } else {
-      this.formData.append("image", this.post.image);
-    }
 
     console.log("FormData before sending:", this.formData);
-    this.http
-      .post(
-        "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs",
-        this.formData
-      )
-      .subscribe({
-        next: (data: any) => {
-          console.log("new post created:", data);
-          console.log("id", data.data.id);
-          this.message = "Blog post created successfully!";
-          this.router.navigate(["/post", data.data.id]);
-        },
-        error: (err) => {
-          console.log(err);
-          this.message = "An error occurred. Please try again.";
-        },
-      });
   }
 
   onEdit(): void {
@@ -164,25 +151,25 @@ export class EditPostComponent implements OnInit {
       alert("edit component : please select a category");
     } else {
       console.log("FormData before sending:", this.formData);
-
-      this.http
-        .post(
-          "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/" +
-            id.toString(),
-          this.formData
-        )
-        .subscribe({
-          next: (data) => {
-            console.log("post edited:", data);
-            this.message = "Blog post created successfully!";
-            this.location.back();
-          },
-          error: (err) => {
-            console.log(err);
-            this.message = "An error occurred. Please try again.";
-          },
-        });
     }
+    this.sendFormData(
+      "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/" +
+        id.toString()
+    );
+  }
+
+  sendFormData(url: string) {
+    this.http.post(url, this.formData).subscribe({
+      next: (data: any) => {
+        console.log("article posted:", data);
+        this.message = "Blog post created successfully!";
+        this.router.navigate(["post/", data.data.id]);
+      },
+      error: (err) => {
+        console.log(err);
+        this.message = "An error occurred. Please try again.";
+      },
+    });
   }
 
   onCancel(): void {
