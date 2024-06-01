@@ -1,16 +1,15 @@
-<div class="column card-wrapper">
+<div class="column card-wrapper mb-2" routerLink="/post/{{ post.id }}">
   <img [src]="post.image" alt="" />
-  <div class="column text-wrapper gap-05" routerLink="/post/{{ post.id }}">
+  <div class="column text-wrapper gap-05" >
     <h2 class="title">{{ post.title }}</h2>
-    <div class="row space-between">
-      <span class="view">{{ post.views + "views" }}</span>
-      <span class="view">{{ post.likes + "likes" }}</span>
-      <span class="date">{{ formatDate(post.created_at) }}</span>
+    <span class="date mb-05">{{ formatDate(post.created_at) }}</span>
+    <div class="row gap-1">
+      <span class="view">{{ post.views + " views" }}</span>
+      <span class="view">{{ post.likes + " likes" }}</span>
     </div>
+
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere
-      pulvinar mi sed ullamcorper. Nunc ac venenatis sapien. Morbi cras amet.
+      {{ summary }}
     </p>
-    <div class="read-more">read more</div>
   </div>
 </div>

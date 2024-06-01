@@ -106,6 +106,9 @@ export class EditPostComponent implements OnInit {
       this.post.category_id = this.selectCategoryComponent.selectedCategory.id;
       console.log(this.post.category_id);
       this.formData.append("category_id", this.post.category_id.toString());
+      this.sendFormData(
+        "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs"
+      );
     } else if (this.selectCategoryComponent.selectedCategory == "") {
       alert("edit comp : else if : please select cat");
     } else {
@@ -113,6 +116,7 @@ export class EditPostComponent implements OnInit {
         next: (data: any) => {
           this.post.category_id = data.id;
           this.formData.append("category_id", this.post.category_id.toString());
+          console.log("this is where it bugs ?");
           this.sendFormData(
             "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs"
           );
@@ -133,7 +137,7 @@ export class EditPostComponent implements OnInit {
       this.post.category_id = this.selectCategoryComponent.selectedCategory.id;
       this.formData.append("category_id", this.post.category_id.toString());
     } else if (this.selectCategoryComponent.selectedCategory == "") {
-      alert("edit comp : else if : please select cat");
+      alert("please select a category");
     } else {
       this.selectCategoryComponent.addCategory().subscribe({
         next: (data: any) => {
@@ -148,10 +152,11 @@ export class EditPostComponent implements OnInit {
       this.formData.append("image", this.selectedFile, this.selectedFile.name);
     }
     if (this.post.category_id == 0 || this.post.category_id == undefined) {
-      alert("edit component : please select a category");
+      alert("please select a category");
     } else {
       console.log("FormData before sending:", this.formData);
     }
+    console.log("right before sending formdata()");
     this.sendFormData(
       "https://blogdbhazar-nico-5d30f5ae698b.herokuapp.com/api/blogs/" +
         id.toString()
@@ -159,6 +164,7 @@ export class EditPostComponent implements OnInit {
   }
 
   sendFormData(url: string) {
+    console.log("sending data");
     this.http.post(url, this.formData).subscribe({
       next: (data: any) => {
         console.log("article posted:", data);
@@ -173,7 +179,7 @@ export class EditPostComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.location.back();
+    this.router.navigate(["/"]);
   }
 
   formatDate = (date: string): string =>
