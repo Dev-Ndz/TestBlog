@@ -32,7 +32,7 @@ export class AuthComponent {
       .subscribe({
         next: () => {
           this.displayLogin = false;
-          this.router.navigate(["/"]);
+          window.location.reload();
         },
 
         error: (err) => console.log(err),
