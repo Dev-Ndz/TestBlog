@@ -48,6 +48,9 @@ $front-end-theme: mat.define-light-theme(
   margin: 0px;
   padding: 0px;
   box-sizing: border-box;
+  &:focus {
+    outline: 1px solid var(--highlight);
+  }
 }
 
 html,

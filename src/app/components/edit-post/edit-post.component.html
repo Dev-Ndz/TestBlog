@@ -3,12 +3,12 @@
   [ngStyle]="{ 'background-image': 'url(' + this.post.image + ')' }"
 >
   <div class="content-inside gradient">
-    <div class="row space-between align-center">
+    <div class="row space-between align-center mb-1">
       <div class="row grow align-center">
         <input
           id="title"
           type="text"
-          class="grow"
+          class="grow input"
           [(ngModel)]="this.post.title"
         />
         <div class="checkbox"><i class="pi pi-heart"></i></div>
@@ -46,7 +46,11 @@
   </div>
 </div>
 <div class="content-outside">
-  <textarea id="content" size="2000" [(ngModel)]="this.post.content"></textarea>
+  <textarea
+    id="content"
+    class="input"
+    [(ngModel)]="this.post.content"
+  ></textarea>
 </div>
 
 <!-- URL TO IMG -->

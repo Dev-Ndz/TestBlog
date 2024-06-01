@@ -44,6 +44,10 @@ export class PostComponent {
 
   isLiked: boolean = false;
 
+  get textWithLineBreaks() {
+    return this.post.content.replace(/\n/g, "<br/>");
+  }
+
   editPost = () => this.navigateToEditPost(this.post);
   onDelete = () => this.deletePost();
   handleCheckbox = (): void => {

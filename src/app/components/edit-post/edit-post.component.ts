@@ -162,7 +162,7 @@ export class EditPostComponent implements OnInit {
     this.http.post(url, this.formData).subscribe({
       next: (data: any) => {
         console.log("article posted:", data);
-        this.message = "Blog post created successfully!";
+        this.message = "Blog post created successfullyn!";
         this.router.navigate(["post/", data.data.id]);
       },
       error: (err) => {
